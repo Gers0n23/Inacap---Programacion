@@ -24,3 +24,13 @@ Variable_b=3
 
 def sumar2(variable_a,variable_b):
     return variable_a + variable_b
+    
+
+
+from hola import sumar, sumar2
+print ("este programa suma 2 numeros")
+sumar()
+num11=int(input("ingrese el primer numero"))
+num22=int(input("ingrese el segundo numero"))
+resultado=sumar2(num11,num22)
+print("el resultado de la suma es:??? RESOLVER EL PROBLEMA???",resultado)
