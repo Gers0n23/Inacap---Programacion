@@ -28,23 +28,32 @@ def mostrar_personas(): # Función para mostrar las personas almacenadas en la l
     for persona in personas:
         print(persona)
 
-while True: # Bucle infinito para mostrar el menú y ejecutar las opciones del usuario hasta que se seleccione "Salir"
-    opcion = menu() # Se obtiene la opción del usuario mediante la función "menu()"
+def buscar_persona(nombre):
+    for persona in personas:
+        if persona['nombre'] == nombre:
+            print(persona)
+
+while True:
+    opcion = menu()
     if opcion == 1:
-        agregar_persona() # Si se selecciona "Agregar persona", se llama a la función "agregar_persona()"
+        agregar_persona()
     elif opcion == 2:
-        mostrar_personas() # Si se selecciona "Mostrar personas", se llama a la función "mostrar_personas()"
+        mostrar_personas()
     elif opcion == 3:
-        print("Buscar persona") # Si se selecciona "Buscar persona", se muestra un mensaje indicando que esta opción aún no está implementada
+        nombre = input("Ingrese el nombre de la persona que desea buscar: ")
+        buscar_persona(nombre)
     elif opcion == 4:
-        print("Modificar persona") # Si se selecciona "Modificar persona", se muestra un mensaje indicando que esta opción aún no está implementada
+        print("Modificar persona")
     elif opcion == 5:
-        print("Eliminar persona") # Si se selecciona "Eliminar persona", se muestra un mensaje indicando que esta opción aún no está implementada
+        print("Eliminar persona")
     elif opcion == 6:
-        print("Salir") # Si se selecciona "Salir", se muestra un mensaje indicando que el programa ha finalizado y se rompe el bucle infinito con "break"
+        print("Salir")
         break
     else:
-        print("Opcion incorrecta") # Si se ingresa una opción inválida, se muestra un mensaje indicando que es incorrecta
+        print("Opcion incorrecta")
+    print("")
+else:
+    print("Opcion incorrecta") # Si se ingresa una opción inválida, se muestra un mensaje indicando que es incorrecta
     print("") # Se imprime una línea en blanco para separar las opciones del menú
 
 print("Fin del programa") # Al finalizar el programa, se muestra un mensaje indicando que ha finalizado.
