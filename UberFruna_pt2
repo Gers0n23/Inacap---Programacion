@@ -1,0 +1,159 @@
+personas=[]
+vehiculos=[]
+
+def mostrar_menu(nombre, opciones):  # incorporamos el parámetro para mostrar el nombre del menú
+    print(f'# {nombre}. Seleccione una opción:')
+    for clave in sorted(opciones):
+        print(f' {clave}) {opciones[clave][0]}')
+def leer_opcion(opciones):
+    while (a := input('Opción: ')) not in opciones:
+        print('Opción incorrecta, vuelva a intentarlo.')
+    return a
+
+def ejecutar_opcion(opcion, opciones):
+    opciones[opcion][1]()
+
+def generar_menu(nombre, opciones, opcion_salida):  # incorporamos el parámetro para mostrar el nombre del menú
+    opcion = None
+    while opcion != opcion_salida:
+        mostrar_menu(nombre, opciones)
+        opcion = leer_opcion(opciones)
+        ejecutar_opcion(opcion, opciones)
+        print()
+
+def menu_inicio():
+    opciones = {
+        '1': ('Iniciar Dia >', iniciar)
+    }
+
+    generar_menu('Menú inicio', opciones, '1')  # indicamos el nombre del menú
+
+def menu_principal():
+    opciones = {
+        '1': ('Vehiculos', menu_vehiculo),
+        '2': ('Viajes', menu_viajes),
+        '3': ('Resumen', menu_resumen),
+        '4': ('Finalizar Dia', salir)
+    }
+
+    generar_menu('Menu Principal', opciones, '4')  # indicamos el nombre del submenú
+
+def menu_vehiculo():
+    opciones = {
+        '1': ('Agregar Vehículo', funcion1),
+        '2': ('Modificar Vehículo', funcion1),
+        '3': ('Eliminar Vehículo', funcion1),
+        '4': ('Agregar Combustible', funcion1),
+        '5': ('Configurar Consumo', funcion1),
+        '6': ('Volver al menú principal', menu_principal)
+    }
+
+    generar_menu('Configuración Vehiculo', opciones, '6')  # indicamos el nombre del submenú
+
+def menu_viajes():
+    opciones = {
+        '1': ('Agregar nuevo viaje', nuevo_viaje),
+        '2': ('Mostrar viajes', mostrar_viajes),
+        '3': ('Buscar un viaje',busca_viaje1),
+        '4': ('Modificar un Viaje', modifica_viaje1),
+        '5': ('Eliminar un viaje', elimina_viaje1),
+        '6': ('Volver al menú principal', menu_principal)
+    }
+
+    generar_menu('Configuración Viajes', opciones, '6')  # indicamos el nombre del submenú
+
+def menu_resumen():
+    opciones = {
+        '1': ('Detalle viajes', funcion1),
+        '2': ('Resumen diario', funcion1),
+        '3': ('Ganancias Totales', resumen_viajes),
+        '4': ('Traslados sin Ganancias', funcion1),
+        '5': ('Combustible Restante', funcion1),
+        '6': ('Volver al menú principal', menu_principal)
+    }
+
+    generar_menu('Resumen Diario', opciones, '6')  # indicamos el nombre del submenú
+# A partir de aquí creamos las funciones que ejecutan las acciones de los menús
+def funcion1():
+    print('Falta Construir')
+
+def agregar_punto_inicio(tipo): 
+    georeferencia_i = {} 
+    georeferencia_i['latitud'] = float(input(f"Ingrese latitud {tipo}:")) 
+    georeferencia_i['longitud'] = float(input(f"Ingrese longitud {tipo}:")) 
+    return georeferencia_i
+
+def agregar_georeferencia(tipo):
+    latitud = float(input(f"Ingrese latitud {tipo}:"))
+    longitud = float(input(f"Ingrese longitud {tipo}:"))
+    return (latitud, longitud)
+    
+def iniciar():
+    persona = {} 
+    persona['nombre'] = "Viaje Inicio"
+    persona['origen'] = agregar_punto_inicio('origen') # Se solicita al usuario que ingrese la georeferencia de origen de la persona
+    personas.append(persona) # Se agrega el diccionario con los datos de la persona a la lista de personas
+    
+    menu_principal()
+
+def nuevo_viaje():
+    persona = {} 
+    persona['nombre'] = input("Ingrese el nombre de la persona: ") 
+    persona['origen'] = agregar_georeferencia('origen') # Se solicita al usuario que ingrese la georeferencia de origen de la persona
+    persona['destino'] = agregar_georeferencia('destino') # Se solicita al usuario que ingrese la georeferencia de destino de la persona
+    x1, y1 = persona['origen']
+    x2, y2 = persona['destino']
+    distancia = ((x2 - x1)**2 + (y2 - y1)**2)**0.5
+    costo_mt = 100 # Variable que indica el costo por metro
+    costo_viaje = distancia * costo_mt # Cálculo del costo del viaje
+    persona['distancia'] = distancia
+    persona['costo_viaje'] = f"${int(costo_viaje):,}" # Formateo del resultado como moneda sin decimales
+    personas.append(persona) # Se agrega el diccionario con los datos de la persona a la lista de personas
+
+def mostrar_viajes(): # Función para mostrar las personas almacenadas en la lista de personas
+    for persona in personas:
+        print(persona)
+
+def busca_viaje1():
+    nombre=nombre = input("Ingrese el nombre a buscar: ")
+    buscar_viaje(nombre)
+def buscar_viaje(nombre):
+    for persona in personas:
+        if persona['nombre'] == nombre:
+            print(persona)
+
+def modifica_viaje1():
+    nombre=nombre = input("Ingrese el nombre a buscar: ")
+    modificar_viaje(nombre)
+def modificar_viaje(nombre):
+    for persona in personas:
+        if persona['nombre'] == nombre:
+            nuevo_origen = agregar_georeferencia('origen')
+            nuevo_destino = agregar_georeferencia('destino')
+            persona['origen'] = nuevo_origen
+            persona['destino'] = nuevo_destino
+            print("Registro actualizado.")
+            return
+    print("No se encontró el registro.")
+
+def elimina_viaje1():
+    nombre=nombre = input("Ingrese el nombre que quiere eliminar (esto no se puede deshacer): ")
+    eliminar_registro(nombre)
+def eliminar_registro(nombre):
+    for i, persona in enumerate(personas):
+        if persona['nombre'] == nombre:
+            del personas[i]
+            print("Registro eliminado.")
+            return
+    print("No se encontró el registro.")
+
+def resumen_viajes():
+    total_costo = sum([int(persona['costo_viaje'].replace('$','').replace(',','')) for persona in personas]) # Suma de los costos de todos los viajes
+    print(f"El costo total de los viajes es: ${total_costo:,}") # Formateo del resultado como moneda sin decimales
+    print(f"El número total de viajes es: {len(personas)}") # Conteo del número total de viajes
+    
+def salir():
+    print('Finalizando Sesion, Hasta Pronto')
+
+if __name__ == '__main__':
+    menu_inicio() # iniciamos el programa mostrando el menú principal
