@@ -57,10 +57,11 @@ def menu_viajes():
         '3': ('Buscar un viaje',busca_viaje1),
         '4': ('Modificar un Viaje', modifica_viaje1),
         '5': ('Eliminar un viaje', elimina_viaje1),
-        '6': ('Volver al menú principal', menu_principal)
+        '6': ('Ultimo Viaje', obtener_ultimo_destino),
+        '7': ('Volver al menú principal', menu_principal)
     }
 
-    generar_menu('Configuración Viajes', opciones, '6')  # indicamos el nombre del submenú
+    generar_menu('Configuración Viajes', opciones, '7')  # indicamos el nombre del submenú
 
 def menu_resumen():
     opciones = {
@@ -68,7 +69,7 @@ def menu_resumen():
         '2': ('Resumen diario', funcion1),
         '3': ('Ganancias Totales', resumen_viajes),
         '4': ('Traslados sin Ganancias', funcion1),
-        '5': ('Combustible Restante', funcion1),
+        '5': ('Combustible Restante', resumen_gasto_combustible),
         '6': ('Volver al menú principal', menu_principal)
     }
 
@@ -91,12 +92,32 @@ def agregar_georeferencia(tipo):
 def iniciar():
     persona = {} 
     persona['nombre'] = "Viaje Inicio"
-    persona['origen'] = agregar_punto_inicio('origen') # Se solicita al usuario que ingrese la georeferencia de origen de la persona
+    persona['origen'] = agregar_georeferencia('origen') # Se solicita al usuario que ingrese la georeferencia de origen de la persona
+    persona['destino'] = agregar_georeferencia('destino') # Se solicita al usuario que ingrese la georeferencia de destino de la persona
+    x1, y1 = persona['origen']
+    x2, y2 = persona['destino']
+    distancia = ((x2 - x1)**2 + (y2 - y1)**2)**0.5
+    costo_mt = 100 # Variable que indica el costo por metro
+    costo_viaje = distancia * costo_mt # Cálculo del costo del viaje
+    rendimiento_vehiculo=1.3
+    gasto_combustible = distancia / rendimiento_vehiculo # Cálculo del gasto de combustible
+    persona['distancia'] = distancia
+    persona['costo_viaje'] = f"${int(0):,}" 
+    
+    persona['gasto_combustible'] = f"${gasto_combustible:.2f}" 
     personas.append(persona) # Se agrega el diccionario con los datos de la persona a la lista de personas
     
     menu_principal()
 
-def nuevo_viaje():
+def obtener_ultimo_destino():
+    if personas:
+        ultimo_registro = personas[-1]
+        print(ultimo_registro)
+        return ultimo_registro['destino']
+    else:
+        return None
+
+def nuevo_viaje2():
     persona = {} 
     persona['nombre'] = input("Ingrese el nombre de la persona: ") 
     persona['origen'] = agregar_georeferencia('origen') # Se solicita al usuario que ingrese la georeferencia de origen de la persona
@@ -108,6 +129,24 @@ def nuevo_viaje():
     costo_viaje = distancia * costo_mt # Cálculo del costo del viaje
     persona['distancia'] = distancia
     persona['costo_viaje'] = f"${int(costo_viaje):,}" # Formateo del resultado como moneda sin decimales
+    personas.append(persona) # Se agrega el diccionario con los datos de la persona a la lista de personas
+    
+def nuevo_viaje():
+    persona = {} 
+    persona['nombre'] = input("Ingrese el nombre de la persona: ") 
+    persona['origen'] = agregar_georeferencia('origen') # Se solicita al usuario que ingrese la georeferencia de origen de la persona
+    persona['destino'] = agregar_georeferencia('destino') # Se solicita al usuario que ingrese la georeferencia de destino de la persona
+    x1, y1 = persona['origen']
+    x2, y2 = persona['destino']
+    distancia = ((x2 - x1)**2 + (y2 - y1)**2)**0.5
+    costo_mt = 100 # Variable que indica el costo por metro
+    costo_viaje = distancia * costo_mt # Cálculo del costo del viaje
+    rendimiento_vehiculo=1.3
+    gasto_combustible = distancia / rendimiento_vehiculo # Cálculo del gasto de combustible
+    persona['distancia'] = distancia
+    persona['costo_viaje'] = f"${int(costo_viaje):,}" 
+    
+    persona['gasto_combustible'] = f"${gasto_combustible:.2f}" 
     personas.append(persona) # Se agrega el diccionario con los datos de la persona a la lista de personas
 
 def mostrar_viajes(): # Función para mostrar las personas almacenadas en la lista de personas
@@ -149,9 +188,14 @@ def eliminar_registro(nombre):
 
 def resumen_viajes():
     total_costo = sum([int(persona['costo_viaje'].replace('$','').replace(',','')) for persona in personas]) # Suma de los costos de todos los viajes
-    return total_costo
     print(f"El costo total de los viajes es: ${total_costo:,}") # Formateo del resultado como moneda sin decimales
     print(f"El número total de viajes es: {len(personas)}") # Conteo del número total de viajes
+    return total_costo
+def resumen_gasto_combustible():
+    gasto_combustible_total = sum(round(float(persona['gasto_combustible'].replace('$','').replace(',','')), 0) for persona in personas)
+    
+    print(gasto_combustible_total)
+    return gasto_combustible_total
     
 def salir():
     print('Finalizando Sesion, Hasta Pronto')
