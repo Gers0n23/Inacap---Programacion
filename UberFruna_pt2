@@ -149,6 +149,7 @@ def eliminar_registro(nombre):
 
 def resumen_viajes():
     total_costo = sum([int(persona['costo_viaje'].replace('$','').replace(',','')) for persona in personas]) # Suma de los costos de todos los viajes
+    return total_costo
     print(f"El costo total de los viajes es: ${total_costo:,}") # Formateo del resultado como moneda sin decimales
     print(f"El número total de viajes es: {len(personas)}") # Conteo del número total de viajes
     
