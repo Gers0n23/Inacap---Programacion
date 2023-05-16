@@ -174,13 +174,16 @@ def resumen_viajes():
     total_costo = sum([int(persona['costo_viaje'].replace('$','').replace(',','')) for persona in personas]) # Suma de los costos de todos los viajes
     gasto_combustible_total = sum(round(float(persona['gasto_combustible'].replace('$','').replace(',','')), 0) for persona in personas)
     impuestos= total_costo*0.19
-
+    
+    print("# Metricas")
     print(f"Número de viajes realizados: {len(personas)}") # Conteo del número total de viajes
     print(f"Traslados sin ganancias: {vacio} KM")
     print(f"Distancia total recorrida: {vacio} KM")
+    print(f"Combustible restante: {vacio} lts")
+    print("")
+    print("# Ganancias")
     print(f"Monto total recaudado: ${total_costo:,}")
     print(f"Gasto en combustible: ${int(gasto_combustible_total):,}")
-    print(f"Combustible restante: {vacio} lts")
     print(f"Impuestos: ${int(impuestos):,}")
     print(f"Ganancia final del Conductor: ${int(total_costo -gasto_combustible_total-impuestos):,} Neto") 
      
