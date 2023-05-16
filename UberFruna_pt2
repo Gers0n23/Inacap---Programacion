@@ -3,6 +3,7 @@ vehiculos=[]
 costo_mt = 3500
 rendimiento_vehiculo=14.3
 valor_combustible=1250
+vacio= "pendiente"
 
 from math import sqrt
 
@@ -172,12 +173,16 @@ def eliminar_registro(nombre):
 def resumen_viajes():
     total_costo = sum([int(persona['costo_viaje'].replace('$','').replace(',','')) for persona in personas]) # Suma de los costos de todos los viajes
     gasto_combustible_total = sum(round(float(persona['gasto_combustible'].replace('$','').replace(',','')), 0) for persona in personas)
-    
-    print(f"Monto total recaudado: ${total_costo:,}")
+    impuestos= total_costo*0.19
+
     print(f"Número de viajes realizados: {len(personas)}") # Conteo del número total de viajes
+    print(f"Traslados sin ganancias: {vacio} KM")
+    print(f"Distancia total recorrida: {vacio} KM")
+    print(f"Monto total recaudado: ${total_costo:,}")
     print(f"Gasto en combustible: ${int(gasto_combustible_total):,}")
-    print(f"Ganancia final: ${int(total_costo -gasto_combustible_total):,}") 
-     
+    print(f"Combustible restante: {vacio} lts")
+    print(f"Impuestos: ${int(impuestos):,}")
+    print(f"Ganancia final del Conductor: ${int(total_costo -gasto_combustible_total-impuestos):,} Neto") 
      
     return total_costo
 def resumen_gasto_combustible():
