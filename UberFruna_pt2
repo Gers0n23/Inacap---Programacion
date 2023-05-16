@@ -1,6 +1,6 @@
 personas=[]
 vehiculos=[]
-costo_mt = 100
+costo_mt = 3500
 rendimiento_vehiculo=14.3
 valor_combustible=1250
 
@@ -100,10 +100,10 @@ def iniciar():
     x2, y2 = persona['destino']
     distancia = sqrt((x2 - x1)**2 + (y2 - y1)**2)*111
     costo_viaje = distancia * costo_mt # Cálculo del costo del viaje
-    gasto_combustible = distancia / rendimiento_vehiculo # Cálculo del gasto de combustible
+    gasto_combustible = distancia / rendimiento_vehiculo*valor_combustible # Cálculo del gasto de combustible
     persona['distancia'] = distancia
     persona['costo_viaje'] = f"${int(0):,}" 
-    persona['gasto_combustible'] = f"${gasto_combustible:.2f}" 
+    persona['gasto_combustible'] = f"${int(gasto_combustible):,}" 
     personas.append(persona) # Se agrega el diccionario con los datos de la persona a la lista de personas
     
     menu_principal()
@@ -125,11 +125,11 @@ def nuevo_viaje():
     x2, y2 = persona['destino']
     distancia = sqrt((x2 - x1)**2 + (y2 - y1)**2)*111
     costo_viaje = distancia * costo_mt # Cálculo del costo del viaje
-    gasto_combustible = distancia / rendimiento_vehiculo # Cálculo del gasto de combustible
+    gasto_combustible = distancia / rendimiento_vehiculo*valor_combustible # Cálculo del gasto de combustible
     persona['distancia'] = distancia
     persona['costo_viaje'] = f"${int(costo_viaje):,}" 
     
-    persona['gasto_combustible'] = f"${gasto_combustible:.2f}" 
+    persona['gasto_combustible'] = f"${int(gasto_combustible):,}" 
     personas.append(persona) # Se agrega el diccionario con los datos de la persona a la lista de personas
 
 def mostrar_viajes(): # Función para mostrar las personas almacenadas en la lista de personas
