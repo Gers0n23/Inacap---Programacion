@@ -1,5 +1,5 @@
-personas=[]
-vehiculos=[]
+personas=[] #Falta Todo el Modulo de Vehiculo, verificar las variables de rendimiento, valor de combustible y costo de los viajes
+vehiculos=[] # Falta calcular el destino del ultimo viaje, hasta el inicio del siguiente, y que se agregue automaticamente, y se calcule el gasto y distancia.
 costo_mt = 3500
 rendimiento_vehiculo=14.3
 valor_combustible=1250
