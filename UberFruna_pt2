@@ -1,5 +1,10 @@
 personas=[]
 vehiculos=[]
+costo_mt = 100
+rendimiento_vehiculo=14.3
+valor_combustible=1250
+
+from math import sqrt
 
 def mostrar_menu(nombre, opciones):  # incorporamos el parámetro para mostrar el nombre del menú
     print(f'# {nombre}. Seleccione una opción:')
@@ -65,15 +70,12 @@ def menu_viajes():
 
 def menu_resumen():
     opciones = {
-        '1': ('Detalle viajes', funcion1),
-        '2': ('Resumen diario', funcion1),
-        '3': ('Ganancias Totales', resumen_viajes),
-        '4': ('Traslados sin Ganancias', funcion1),
-        '5': ('Combustible Restante', resumen_gasto_combustible),
-        '6': ('Volver al menú principal', menu_principal)
+        '1': ('Detalle viajes', mostrar_viajes),
+        '2': ('Resumen diario', resumen_viajes),
+        '3': ('Volver al menú principal', menu_principal)
     }
 
-    generar_menu('Resumen Diario', opciones, '6')  # indicamos el nombre del submenú
+    generar_menu('Resumen Diario', opciones, '3')  # indicamos el nombre del submenú
 # A partir de aquí creamos las funciones que ejecutan las acciones de los menús
 def funcion1():
     print('Falta Construir')
@@ -96,14 +98,11 @@ def iniciar():
     persona['destino'] = agregar_georeferencia('destino') # Se solicita al usuario que ingrese la georeferencia de destino de la persona
     x1, y1 = persona['origen']
     x2, y2 = persona['destino']
-    distancia = ((x2 - x1)**2 + (y2 - y1)**2)**0.5
-    costo_mt = 100 # Variable que indica el costo por metro
+    distancia = sqrt((x2 - x1)**2 + (y2 - y1)**2)*111
     costo_viaje = distancia * costo_mt # Cálculo del costo del viaje
-    rendimiento_vehiculo=1.3
     gasto_combustible = distancia / rendimiento_vehiculo # Cálculo del gasto de combustible
     persona['distancia'] = distancia
     persona['costo_viaje'] = f"${int(0):,}" 
-    
     persona['gasto_combustible'] = f"${gasto_combustible:.2f}" 
     personas.append(persona) # Se agrega el diccionario con los datos de la persona a la lista de personas
     
@@ -117,20 +116,6 @@ def obtener_ultimo_destino():
     else:
         return None
 
-def nuevo_viaje2():
-    persona = {} 
-    persona['nombre'] = input("Ingrese el nombre de la persona: ") 
-    persona['origen'] = agregar_georeferencia('origen') # Se solicita al usuario que ingrese la georeferencia de origen de la persona
-    persona['destino'] = agregar_georeferencia('destino') # Se solicita al usuario que ingrese la georeferencia de destino de la persona
-    x1, y1 = persona['origen']
-    x2, y2 = persona['destino']
-    distancia = ((x2 - x1)**2 + (y2 - y1)**2)**0.5
-    costo_mt = 100 # Variable que indica el costo por metro
-    costo_viaje = distancia * costo_mt # Cálculo del costo del viaje
-    persona['distancia'] = distancia
-    persona['costo_viaje'] = f"${int(costo_viaje):,}" # Formateo del resultado como moneda sin decimales
-    personas.append(persona) # Se agrega el diccionario con los datos de la persona a la lista de personas
-    
 def nuevo_viaje():
     persona = {} 
     persona['nombre'] = input("Ingrese el nombre de la persona: ") 
@@ -138,10 +123,8 @@ def nuevo_viaje():
     persona['destino'] = agregar_georeferencia('destino') # Se solicita al usuario que ingrese la georeferencia de destino de la persona
     x1, y1 = persona['origen']
     x2, y2 = persona['destino']
-    distancia = ((x2 - x1)**2 + (y2 - y1)**2)**0.5
-    costo_mt = 100 # Variable que indica el costo por metro
+    distancia = sqrt((x2 - x1)**2 + (y2 - y1)**2)*111
     costo_viaje = distancia * costo_mt # Cálculo del costo del viaje
-    rendimiento_vehiculo=1.3
     gasto_combustible = distancia / rendimiento_vehiculo # Cálculo del gasto de combustible
     persona['distancia'] = distancia
     persona['costo_viaje'] = f"${int(costo_viaje):,}" 
@@ -188,8 +171,14 @@ def eliminar_registro(nombre):
 
 def resumen_viajes():
     total_costo = sum([int(persona['costo_viaje'].replace('$','').replace(',','')) for persona in personas]) # Suma de los costos de todos los viajes
-    print(f"El costo total de los viajes es: ${total_costo:,}") # Formateo del resultado como moneda sin decimales
-    print(f"El número total de viajes es: {len(personas)}") # Conteo del número total de viajes
+    gasto_combustible_total = sum(round(float(persona['gasto_combustible'].replace('$','').replace(',','')), 0) for persona in personas)
+    
+    print(f"Monto total recaudado: ${total_costo:,}")
+    print(f"Número de viajes realizados: {len(personas)}") # Conteo del número total de viajes
+    print(f"Gasto en combustible: ${int(gasto_combustible_total):,}")
+    print(f"Ganancia final: ${int(total_costo -gasto_combustible_total):,}") 
+     
+     
     return total_costo
 def resumen_gasto_combustible():
     gasto_combustible_total = sum(round(float(persona['gasto_combustible'].replace('$','').replace(',','')), 0) for persona in personas)
