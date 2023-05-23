@@ -1,0 +1,54 @@
+'''miarreglo= ['a','b','c','d']'''
+
+'''for posicion in range(0,len(miarreglo)):
+    print(miarreglo[posicion], end="")'''
+
+'''mimatrix=[[1,2,3],[4,5,6],[7,8,9]]
+
+
+for i in range(0,len(mimatrix)):
+    for j in range(0,len(mimatrix)):
+        print(mimatrix[i][j])'''
+
+#mostrar matriz en formato
+'''
+1 2 3
+4 5 6
+7 8 9
+'''
+
+import os
+mimatrix=[["#","#","#"],["#","#","#"],["#","#","#"]]
+opcion='99'
+jugador1=input('Jugador 1, Elija X or O')
+Jugador2='O'
+
+if(jugador1=='X'):
+    jugador2='O'
+else:
+    jugador2='X'
+Jugada=1
+
+while opcion !='0':
+    os.system('cls')
+    for i in range(0,len(mimatrix)):
+        print("\n")
+        for j in range(0,len(mimatrix)):
+            print(mimatrix[i][j],end="\t")
+
+    opcion=input(f"\n******JUGADOR {Jugada} escriba posiicion ej:0,0 a jugar 0 para salir********")
+    if(opcion !=0):
+        celda=opcion.split(',')
+        if(Jugada==1):
+            mimatrix[int(celda[0])][int(celda[1])]=jugador1
+        else:
+            mimatrix[int(celda[0])][int(celda[1])]=jugador2
+    if(Jugada==1):
+        Jugada=2
+    else:  
+        Jugada=1
+
+'''for i in range(0,len(mimatrix)):
+    print("\n")
+    for j in range(0,len(mimatrix)):
+        print(mimatrix[i][j],end="\t")'''
