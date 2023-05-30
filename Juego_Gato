@@ -17,18 +17,42 @@ for i in range(0,len(mimatrix)):
 7 8 9
 '''
 
+
+
+def Homepage ():
+    print("\t----------------------------------")
+    print("\t            MARCADOR            ")
+    print("\t           GATASTROFE 4         ")
+    print("\t           INSERT COIN          ")
+    print("\t----------------------------------")
+
+    print("        pulse cualquier tecla para iniciar")
+ 
+    print("\t----------------------------------\n")
+
 import os
-mimatrix=[["#","#","#"],["#","#","#"],["#","#","#"]]
+mimatrix=["# | ","# |"," #"],["# | ","# |"," #"],["# | ","# |"," #"]
 opcion='99'
-jugador1=input('Jugador 1, Elija X or O')
-Jugador2='O'
+
+Homepage()
+
+print("Jugador 1")
+namejugador1 = input("Ingrese el nombre: ")
+jugador1=input('Jugador 1, Elija X or O:    ')
+
+print("\n")
 
 if(jugador1=='X'):
     jugador2='O'
 else:
     jugador2='X'
-Jugada=1
 
+print("Jugador 2")
+namejugador2 = input("Ingrese el nombre: ")
+print('Jugador 2, utiiza:    ',jugador2 )
+
+Jugada=1
+print("\n")
 while opcion !='0':
     os.system('cls')
     for i in range(0,len(mimatrix)):
@@ -47,6 +71,7 @@ while opcion !='0':
         Jugada=2
     else:  
         Jugada=1
+
 
 '''for i in range(0,len(mimatrix)):
     print("\n")
