@@ -1,4 +1,3 @@
-
 #mostrar matriz en formato
 '''
 1 2 3
@@ -37,32 +36,44 @@ def empate(pos_jug):
         return True
     return False      # AQUI VOY HAY QUE REVISAR QUE ESTO FUNCIONE Y MUESTRE EL MARCADOR 
 
-import os
-mimatrix=["#  ","# "," #"],["#  ","# "," #"],["#  ","# "," #"]
+def inicio():
+    import os
 
-Homepage()
+    mimatrix=["#  ","# "," #"],["#  ","# "," #"],["#  ","# "," #"]
+    
+    print("Jugador 1")
+    namejugador1 = input("Ingrese el nombre: ")
+    jugador1=input('Jugador 1, Elija X or O:    ')
 
-print("Jugador 1")
-namejugador1 = input("Ingrese el nombre: ")
-jugador1=input('Jugador 1, Elija X or O:    ')
+    print("\n")
 
-print("\n")
+    if(jugador1=='X'):
+        jugador2='O'
+    else:
+        jugador2='X'
 
-if(jugador1=='X'):
-    jugador2='O'
-else:
-    jugador2='X'
+    print("Jugador 2")
+    namejugador2 = input("Ingrese el nombre: ")
+    print('Jugador 2, utiliza:  ',jugador2 )
+    
+    jugar(jugador1, jugador2, namejugador1, namejugador2, mimatrix)
 
-print("Jugador 2")
-namejugador2 = input("Ingrese el nombre: ")
-print('Jugador 2, utiiza:    ',jugador2 )
+def reinicio(jugador1, jugador2, namejugador1, namejugador2):
+    import os
 
-def jugar():
+    mimatrix=["#  ","# "," #"],["#  ","# "," #"],["#  ","# "," #"]
+    
+    jugar(jugador1, jugador2, namejugador1, namejugador2, mimatrix)
 
+
+def jugar(jugador1, jugador2, namejugador1, namejugador2,mimatrix):
+    
+    import os
     opcion='99'
     Jugada=1
     print("\n")
     pos_jug = {'X':[], 'O':[]}
+    act_jug=jugador1
 
     while opcion !='0':
         os.system('cls')
@@ -77,34 +88,43 @@ def jugar():
             jugadoractual=namejugador2
 
         print("\n")
-        print(pos_jug)
+        print("--------------------------------")
+        print("            MARCADOR          ")
+        print(namejugador1,": ", jugador1,"      ", namejugador2,": ", jugador2) # Aqui falta el marcador
+        print("--------------------------------\n")
         if  ganador(pos_jug, jugador1):
-            print("¡El jugador", act_jug,"ha ganado!")     
+            print("¡El jugador ", jugadoractual," ha ganado!")     
             print("\n")
-            return act_jug
-
+            reincio=input("presione 3 para reiniciar: ")
+            if  reincio=="3":
+                pos_jug.clear
+                celda.clear
+                print("fin")
+                reinicio(jugador1, jugador2, namejugador1, namejugador2)
+            
         if empate(pos_jug):
             print("Empate")
             print("\n")
-            return 'D'
-
-        numero = int(input(f"\nJUGADOR ACTUAL: {jugadoractual} \n\n¿Que espacio utilizara?: "))
+            reincio=input("presione 3 para reiniciar: ")
+            if  reincio=="3":
+                pos_jug.clear
+                celda.clear
+                reinicio(jugador1, jugador2, namejugador1, namejugador2)
+            
+        numero = int(input(f"\nJUGADOR ACTUAL: {jugadoractual} ({act_jug})\n\n¿Que espacio utilizara?: "))
         
-
-        #Válidez del movimiento
         if numero < 1 or numero > 9:
             print("Ingrese un numero mayor a 1 y menor que 9")
             continue
-    
-        
+       
         fila = (numero - 1) // 3
         columna = (numero - 1) % 3
         opcion = str(fila) + ',' + str(columna)
 
         #Checar que el espacio no esté ocupado
-        # if valores[mover-1] != ' ':
-        #    print("¡No puede colocar aquí, está ocupado! Vuelva a intentarlo")
-        #   continue
+        if celda[opcion-1] != ' ':
+            print("¡No puede colocar aquí, está ocupado! Vuelva a intentarlo")
+            continue
 
         print(opcion)
         if(opcion !=0):
@@ -112,24 +132,17 @@ def jugar():
             if(Jugada==1):
                 mimatrix[int(celda[0])][int(celda[1])]=jugador1
                 pos_jug[jugador1].append(opcion)
-                act_jug=jugador1
             else:
                 mimatrix[int(celda[0])][int(celda[1])]=jugador2
                 pos_jug[jugador2].append(opcion)
-                act_jug=jugador2
             print(pos_jug)
-
-            #Verificar victoria
-
 
         if(Jugada==1):
             Jugada=2
+            act_jug=jugador2
         else:  
             Jugada=1
+            act_jug=jugador1
 
-jugar()
-
-'''for i in range(0,len(mimatrix)):
-    print("\n")
-    for j in range(0,len(mimatrix)):
-        print(mimatrix[i][j],end="\t")'''
+Homepage()
+inicio()
