@@ -66,6 +66,8 @@ def reinicio(jugador1, jugador2, namejugador1, namejugador2):
     jugar(jugador1, jugador2, namejugador1, namejugador2, mimatrix)
 
 
+
+
 def jugar(jugador1, jugador2, namejugador1, namejugador2,mimatrix):
     
     import os
@@ -74,6 +76,14 @@ def jugar(jugador1, jugador2, namejugador1, namejugador2,mimatrix):
     print("\n")
     pos_jug = {'X':[], 'O':[]}
     act_jug=jugador1
+    posicion={}
+    Tablero=[]
+    posicion['celda']=10
+    posicion['ocupadopor']=''
+    Tablero.append(posicion)
+    numero=10
+    contador_victorias=[]
+
 
     while opcion !='0':
         os.system('cls')
@@ -87,18 +97,15 @@ def jugar(jugador1, jugador2, namejugador1, namejugador2,mimatrix):
         else:  
             jugadoractual=namejugador2
 
-        print("\n")
-        print("--------------------------------")
-        print("            MARCADOR          ")
-        print(namejugador1,": ", jugador1,"      ", namejugador2,": ", jugador2) # Aqui falta el marcador
-        print("--------------------------------\n")
+
         if  ganador(pos_jug, jugador1):
-            print("¡El jugador ", jugadoractual," ha ganado!")     
-            print("\n")
+            print("\n\n¡El jugador ", jugadoractual," ha ganado!")     
+
             reincio=input("presione 3 para reiniciar: ")
             if  reincio=="3":
                 pos_jug.clear
                 celda.clear
+                Tablero.clear
                 print("fin")
                 reinicio(jugador1, jugador2, namejugador1, namejugador2)
             
@@ -110,9 +117,8 @@ def jugar(jugador1, jugador2, namejugador1, namejugador2,mimatrix):
                 pos_jug.clear
                 celda.clear
                 reinicio(jugador1, jugador2, namejugador1, namejugador2)
-            
-        numero = int(input(f"\nJUGADOR ACTUAL: {jugadoractual} ({act_jug})\n\n¿Que espacio utilizara?: "))
-        
+        numero = int(input(f"\n\nJUGADOR ACTUAL: {jugadoractual} ({act_jug})\n\n¿Que espacio utilizara?: "))
+
         if numero < 1 or numero > 9:
             print("Ingrese un numero mayor a 1 y menor que 9")
             continue
@@ -121,21 +127,22 @@ def jugar(jugador1, jugador2, namejugador1, namejugador2,mimatrix):
         columna = (numero - 1) % 3
         opcion = str(fila) + ',' + str(columna)
 
-        #Checar que el espacio no esté ocupado
-        if celda[opcion-1] != ' ':
-            print("¡No puede colocar aquí, está ocupado! Vuelva a intentarlo")
-            continue
-
         print(opcion)
         if(opcion !=0):
             celda=opcion.split(',')
-            if(Jugada==1):
-                mimatrix[int(celda[0])][int(celda[1])]=jugador1
-                pos_jug[jugador1].append(opcion)
-            else:
-                mimatrix[int(celda[0])][int(celda[1])]=jugador2
-                pos_jug[jugador2].append(opcion)
-            print(pos_jug)
+            for posicion in Tablero:
+                if posicion['celda']==numero:
+                    print("¡No puede colocar aquí, está ocupado! Vuelva a intentarlo")
+                    continue
+                else:
+
+                    if(Jugada==1):
+                        mimatrix[int(celda[0])][int(celda[1])]=jugador1
+                        pos_jug[jugador1].append(opcion)
+
+                    else:
+                        mimatrix[int(celda[0])][int(celda[1])]=jugador2
+                        pos_jug[jugador2].append(opcion)
 
         if(Jugada==1):
             Jugada=2
@@ -143,6 +150,7 @@ def jugar(jugador1, jugador2, namejugador1, namejugador2,mimatrix):
         else:  
             Jugada=1
             act_jug=jugador1
+ 
 
 Homepage()
 inicio()
