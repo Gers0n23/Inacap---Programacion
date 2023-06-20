@@ -22,7 +22,10 @@ def generar_menu(nombre, opciones, opcion_salida):  # incorporamos el parámetro
         ejecutar_opcion(opcion, opciones)
         print()
 
-def menu_principal():
+def menu_principal(estado):
+    
+    print(estado)
+
     opciones = {
         '1': ('Ingresar al sistema', menu_login),
         '2': ('Registrarse',funcion1),
@@ -32,7 +35,7 @@ def menu_principal():
 
 def menu_login():
     
-    def clearConsole():
+   ''' def clearConsole():
     command = 'clear' # Aqui hay errores
     if os.name in ('nt', 'dos'):  # If Machine is running on Windows, use cls
         command = 'cls'
@@ -43,9 +46,9 @@ def menu_login():
     print(f'\n************ Validacion Credenciales de Acceso ************ \n\nSeleccione una opción:\n')
 
     user=    input('ingrese usuario: '),
-    Pass=    input('ingrese contraseña: ')
+    Pass=    input('ingrese contraseña: ')'''
 
-    print('\n\n********************************************************')
+print('\n\n********************************************************')
 
 def menu_viajes():
     opciones = {
@@ -71,10 +74,11 @@ def menu_resumen():
 # A partir de aquí estan todas las funciones
 
 def funcion1():
-    print('Falta Construir')
+    estado='Falta Construir'
+    menu_principal('Falta Construir')
 
 def salir():
     print('Finalizando Sesion, Hasta Pronto')
 
 if __name__ == '__main__':
-    menu_principal() # iniciamos el programa mostrando el menú principal
+    menu_principal('') # iniciamos el programa mostrando el menú principal
